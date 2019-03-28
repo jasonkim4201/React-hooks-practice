@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import classes from "./Cockpit.module.css";
+import AuthContext from "../../context/auth-context";
 
 const Cockpit = (props) => {  
   useEffect(() => {
@@ -30,10 +31,10 @@ const Cockpit = (props) => {
     btnClass = classes.Red;
   }
 
-    if (props.persons.length <= 2) {
+    if (props.personsLength <= 2) {
       assignedClasses.push(classes.red);
     }
-    if (props.persons.length <= 1) {
+    if (props.personsLength <= 1) {
       assignedClasses.push(classes.bold);
     }
 
@@ -43,9 +44,13 @@ const Cockpit = (props) => {
       <p className={assignedClasses.join(" ")}>This is really working!</p>
       <button
         className={btnClass}
-        onClick={props.clicked}>Toggle Persons</button>
+        onClick={props.clicked}>Toggle Persons
+      </button>
+      <AuthContext.Consumer>
+        {(context) => <button onClick={context.login}>Log in</button>}
+      </AuthContext.Consumer>
     </div>
   );
 }
 
-export default Cockpit;
+export default React.memo(Cockpit); //react.memo will store a snapshot of this component and if its input changes will the rerender tigger...
